@@ -1,0 +1,71 @@
+"use client";
+
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import type { WikiEntry } from "@/lib/wiki";
+import { discoveredSlugs } from "@/lib/encounters-client";
+
+/* eslint-disable @next/next/no-img-element -- pixel-art sprites, no optimization wanted */
+
+function Card({ entry, discovered }: { entry: WikiEntry; discovered: boolean }) {
+  if (!discovered) {
+    return (
+      <div className="flex flex-col items-center gap-2 rounded-md border border-night-line bg-night-raised p-4 opacity-60">
+        <div className="flex h-16 w-16 items-center justify-center text-4xl text-night-line">?</div>
+        <span className="text-sm text-parchment-muted">???</span>
+        <span className="text-xs uppercase tracking-wider text-night-line">{entry.kind}</span>
+      </div>
+    );
+  }
+  return (
+    <Link
+      href={`/wiki/${entry.slug}`}
+      className="flex flex-col items-center gap-2 rounded-md border border-night-line bg-night-raised p-4 no-underline transition-colors hover:border-gold"
+    >
+      <img
+        src={`/wiki/${entry.sprite}`}
+        alt={entry.name}
+        className="h-16 w-16 object-contain [image-rendering:pixelated]"
+      />
+      <span className="text-sm text-parchment">{entry.name}</span>
+      <span className={`text-xs uppercase tracking-wider ${entry.kind === "boss" ? "text-gold" : "text-parchment-muted"}`}>
+        {entry.kind}
+      </span>
+    </Link>
+  );
+}
+
+export default function BestiaryGrid({ entries }: { entries: WikiEntry[] }) {
+  const [discovered, setDiscovered] = useState<Set<string> | null>(null);
+
+  useEffect(() => {
+    discoveredSlugs().then(setDiscovered);
+  }, []);
+
+  const found = discovered ?? new Set<string>();
+  const enemies = entries.filter((e) => e.kind === "enemy");
+  const bosses = entries.filter((e) => e.kind === "boss");
+  const count = entries.filter((e) => found.has(e.slug)).length;
+
+  return (
+    <div>
+      <p className="mb-6 text-parchment-muted">
+        {discovered === null
+          ? "Consulting the chronicles…"
+          : `${count} of ${entries.length} entries chronicled. The rest must be met in battle first.`}
+      </p>
+      <h2 className="mb-3 text-lg text-parchment">Enemies</h2>
+      <div className="mb-8 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+        {enemies.map((e) => (
+          <Card key={e.slug} entry={e} discovered={found.has(e.slug)} />
+        ))}
+      </div>
+      <h2 className="mb-3 text-lg text-parchment">Bosses</h2>
+      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+        {bosses.map((e) => (
+          <Card key={e.slug} entry={e} discovered={found.has(e.slug)} />
+        ))}
+      </div>
+    </div>
+  );
+}

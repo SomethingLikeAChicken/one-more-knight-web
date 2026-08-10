@@ -15,6 +15,10 @@ export interface Store {
   submitScore(authId: string, username: string, score: number, meta: RunMeta): Promise<void>;
   /** Top N, exactly one row per player (their best run). */
   leaderboard(limit: number): Promise<LeaderboardRow[]>;
+  /** Bestiary diary: remember that this player has seen this entry. Idempotent. */
+  recordEncounter(authId: string, username: string, slug: string): Promise<void>;
+  /** All slugs this player has encountered. */
+  encounters(authId: string): Promise<string[]>;
 }
 
 // ---------------------------------------------------------------------------
@@ -44,17 +48,43 @@ function postgresStore(url: string): Store {
         created_at timestamptz NOT NULL DEFAULT now()
       )`;
     await sql`CREATE INDEX IF NOT EXISTS scores_player_score ON scores (player_id, score DESC)`;
+    await sql`
+      CREATE TABLE IF NOT EXISTS encounters (
+        player_id uuid NOT NULL REFERENCES players(id),
+        slug text NOT NULL,
+        first_seen timestamptz NOT NULL DEFAULT now(),
+        PRIMARY KEY (player_id, slug)
+      )`;
   })();
+
+  async function ensurePlayer(authId: string, username: string): Promise<string> {
+    const [player] = await sql`
+      INSERT INTO players (username, auth_id) VALUES (${username}, ${authId})
+      ON CONFLICT (auth_id) DO UPDATE SET username = EXCLUDED.username
+      RETURNING id`;
+    return player.id as string;
+  }
 
   return {
     async submitScore(authId, username, score, meta) {
       await ready;
-      const [player] = await sql`
-        INSERT INTO players (username, auth_id) VALUES (${username}, ${authId})
-        ON CONFLICT (auth_id) DO UPDATE SET username = EXCLUDED.username
-        RETURNING id`;
+      const playerId = await ensurePlayer(authId, username);
       await sql`INSERT INTO scores (player_id, score, meta)
-                VALUES (${player.id}, ${score}, ${sql.json(meta as never)})`;
+                VALUES (${playerId}, ${score}, ${sql.json(meta as never)})`;
+    },
+    async recordEncounter(authId, username, slug) {
+      await ready;
+      const playerId = await ensurePlayer(authId, username);
+      await sql`INSERT INTO encounters (player_id, slug) VALUES (${playerId}, ${slug})
+                ON CONFLICT DO NOTHING`;
+    },
+    async encounters(authId) {
+      await ready;
+      const rows = await sql`
+        SELECT e.slug FROM encounters e
+        JOIN players p ON p.id = e.player_id
+        WHERE p.auth_id = ${authId}`;
+      return rows.map((r) => r.slug as string);
     },
     async leaderboard(limit) {
       await ready;
@@ -89,12 +119,22 @@ type FileRun = {
   createdAt: string;
 };
 
+type FileEncounter = { authId: string; slug: string; at: string };
+
 function fileStore(): Store {
   const file = path.join(process.cwd(), ".data", "scores.json");
+  const encFile = path.join(process.cwd(), ".data", "encounters.json");
 
   async function readAll(): Promise<FileRun[]> {
     try {
       return JSON.parse(await fs.readFile(file, "utf-8")) as FileRun[];
+    } catch {
+      return [];
+    }
+  }
+  async function readEncounters(): Promise<FileEncounter[]> {
+    try {
+      return JSON.parse(await fs.readFile(encFile, "utf-8")) as FileEncounter[];
     } catch {
       return [];
     }
@@ -106,6 +146,16 @@ function fileStore(): Store {
       runs.push({ authId, username, score, meta, createdAt: new Date().toISOString() });
       await fs.mkdir(path.dirname(file), { recursive: true });
       await fs.writeFile(file, JSON.stringify(runs, null, 2));
+    },
+    async recordEncounter(authId, _username, slug) {
+      const all = await readEncounters();
+      if (all.some((e) => e.authId === authId && e.slug === slug)) return;
+      all.push({ authId, slug, at: new Date().toISOString() });
+      await fs.mkdir(path.dirname(encFile), { recursive: true });
+      await fs.writeFile(encFile, JSON.stringify(all, null, 2));
+    },
+    async encounters(authId) {
+      return (await readEncounters()).filter((e) => e.authId === authId).map((e) => e.slug);
     },
     async leaderboard(limit) {
       const runs = await readAll();

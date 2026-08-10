@@ -17,8 +17,7 @@ export default function PlayPage() {
         <h2 className="mb-2 text-lg text-parchment">How to play</h2>
         <p>
           Move with <Key>WASD</Key> or the arrow keys, fire with <Key>Space</Key>. Survive the
-          endless waves, duel the bosses, and watch the sky change each time one falls. Red,
-          violet and green shots hurt — everything gold and blue is yours.
+          endless waves, duel the bosses, and watch the sky change each time one falls.
         </p>
         <p className="mt-2">
           Sign in and your best run will appear on the{" "}

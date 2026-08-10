@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { addLocalEncounter } from "@/lib/encounters-client";
 
 declare global {
   interface Window {
@@ -10,7 +11,10 @@ declare global {
       onProgress?: (progress: number) => void,
     ) => Promise<UnityInstance>;
     __unity?: UnityInstance;
-    __omk?: { submitScore: (score: number, meta?: Record<string, unknown>) => Promise<void> };
+    __omk?: {
+      submitScore: (score: number, meta?: Record<string, unknown>) => Promise<void>;
+      encounter: (slug: string) => void;
+    };
   }
 }
 
@@ -60,7 +64,7 @@ export default function UnityPlayer() {
           }
           instance = unity;
           window.__unity = unity;
-          // Bridge for the game's future score submission (.jslib calls this).
+          // Bridge for the game's .jslib calls (score submission + bestiary).
           window.__omk = {
             async submitScore(score, meta) {
               await fetch("/api/scores", {
@@ -68,6 +72,14 @@ export default function UnityPlayer() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ score, meta }),
               });
+            },
+            encounter(slug) {
+              addLocalEncounter(slug);
+              fetch("/api/encounters", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ slug }),
+              }).catch(() => {});
             },
           };
           setReady(true);

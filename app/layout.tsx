@@ -21,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <nav className="flex items-center gap-5">
             <NavLink href="/">Play</NavLink>
             <NavLink href="/leaderboard">Leaderboard</NavLink>
+            <NavLink href="/wiki">Bestiary</NavLink>
             <AuthStatus />
           </nav>
         </header>
