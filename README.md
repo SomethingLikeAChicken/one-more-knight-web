@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# One More Knight — Web
 
-## Getting Started
+Website + backend for [One More Knight](https://github.com/SomethingLikeAChicken/One-More-Knight-2026-07-27_11-10-59):
+play the Unity WebGL build in the browser, sign in with OAuth, climb the leaderboard.
 
-First, run the development server:
+Stack: **Next.js** (App Router, one app = site + API, same origin per ADR-0004) ·
+**Tailwind v4** · **Auth.js v5** (Google / GitHub / Discord, no passwords) ·
+**Postgres** (Neon) with a JSON-file fallback store for local dev.
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local   # defaults are fine: dev login on, file store, no DB
+npm install
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+With `DEV_LOGIN=1` you get a fake "Dev login" provider (any username, no
+password) and a "Submit random test score" button on the leaderboard, so the
+whole flow — sign in → submit → deduped leaderboard — works with zero external
+accounts. Scores land in `.data/scores.json` (gitignored).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## The game build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`public/game/` holds the Unity WebGL build (Brotli **with decompression
+fallback**, so no special headers are needed on any host). To update it, build
+WebGL in the Unity project and copy `Builds/WebGL/Build` + `TemplateData` over
+`public/game/`, then commit.
 
-## Learn More
+## Leaderboard rules
 
-To learn more about Next.js, take a look at the following resources:
+Every submitted run is stored (`scores` is append-only — ADR-0005 keeps seed +
+run summary auditable for future hardening), but the leaderboard shows **one row
+per player: their best run**. Identity comes from the OAuth subject
+(`players.auth_id`), so sessions/devices don't create duplicate entries.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## API
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Route | Method | Auth | Purpose |
+|---|---|---|---|
+| `/api/leaderboard` | GET | none | top 50, one best-run row per player |
+| `/api/scores` | POST | session | submit `{ score: int, meta?: object }` |
+| `/api/auth/*` | — | — | Auth.js sign-in/out/callback |
 
-## Deploy on Vercel
+The game page exposes `window.__omk.submitScore(score, meta)` for the Unity
+client's `.jslib` bridge (game-side wiring is a game-repo issue).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploying to Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Vercel**: New Project → import `one-more-knight-web` → framework auto-detects
+   Next.js. Deploy once to learn your production URL.
+2. **Neon**: create a free project → copy the connection string → set it as
+   `DATABASE_URL` in Vercel env vars. Tables are created automatically on first use.
+3. **Secrets**: set `AUTH_SECRET` (`npx auth secret` prints one). Do **not** set
+   `DEV_LOGIN` in production.
+4. **OAuth apps** (all free) — register one per provider, callback URL
+   `https://<your-domain>/api/auth/callback/<provider>`:
+   - Google: console.cloud.google.com → APIs & Services → Credentials → OAuth client ID (Web).
+   - GitHub: github.com/settings/developers → New OAuth App.
+   - Discord: discord.com/developers/applications → New Application → OAuth2.
+   Put each client ID/secret into Vercel env vars (`AUTH_<PROVIDER>_ID`/`_SECRET`).
+5. Redeploy. Providers appear on the sign-in page automatically once their env
+   vars exist.
