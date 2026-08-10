@@ -16,6 +16,8 @@ export default function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
           <th className="border-b border-night-line px-3 py-2 font-normal">#</th>
           <th className="border-b border-night-line px-3 py-2 font-normal">Knight</th>
           <th className="border-b border-night-line px-3 py-2 font-normal">Score</th>
+          <th className="border-b border-night-line px-3 py-2 font-normal">Wave</th>
+          <th className="border-b border-night-line px-3 py-2 font-normal">Bosses</th>
           <th className="border-b border-night-line px-3 py-2 font-normal">Achieved</th>
         </tr>
       </thead>
@@ -26,6 +28,12 @@ export default function LeaderboardTable({ rows }: { rows: LeaderboardRow[] }) {
             <td className="border-b border-night-line px-3 py-2.5">{row.username}</td>
             <td className="border-b border-night-line px-3 py-2.5">
               {row.score.toLocaleString("en-US")}
+            </td>
+            <td className="border-b border-night-line px-3 py-2.5 text-parchment-muted">
+              {row.wave ?? "—"}
+            </td>
+            <td className="border-b border-night-line px-3 py-2.5 text-parchment-muted">
+              {row.bosses ?? "—"}
             </td>
             <td className="border-b border-night-line px-3 py-2.5 text-parchment-muted">
               {new Date(row.achievedAt).toLocaleDateString("en-GB")}

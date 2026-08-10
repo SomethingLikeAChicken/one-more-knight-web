@@ -5,6 +5,8 @@ export type LeaderboardRow = {
   username: string;
   score: number;
   achievedAt: string; // ISO timestamp of the personal-best run
+  wave?: number;      // from the best run's meta
+  bosses?: number;
 };
 
 export type RunMeta = Record<string, unknown>;
@@ -106,20 +108,25 @@ function postgresStore(url: string): Store {
     async leaderboard(limit) {
       await ready;
       const rows = await sql`
-        SELECT p.username, best.score, best.created_at
+        SELECT p.username, best.score, best.created_at, best.meta
         FROM (
-          SELECT DISTINCT ON (player_id) player_id, score, created_at
+          SELECT DISTINCT ON (player_id) player_id, score, created_at, meta
           FROM scores
           ORDER BY player_id, score DESC, created_at ASC
         ) best
         JOIN players p ON p.id = best.player_id
         ORDER BY best.score DESC, best.created_at ASC
         LIMIT ${limit}`;
-      return rows.map((r) => ({
-        username: r.username as string,
-        score: r.score as number,
-        achievedAt: (r.created_at as Date).toISOString(),
-      }));
+      return rows.map((r) => {
+        const meta = (r.meta ?? {}) as { wave?: number; bosses?: number };
+        return {
+          username: r.username as string,
+          score: r.score as number,
+          achievedAt: (r.created_at as Date).toISOString(),
+          wave: meta.wave,
+          bosses: meta.bosses,
+        };
+      });
     },
   };
 }
@@ -191,7 +198,13 @@ function fileStore(): Store {
       return [...best.values()]
         .sort((a, b) => b.score - a.score || a.createdAt.localeCompare(b.createdAt))
         .slice(0, limit)
-        .map((r) => ({ username: r.username, score: r.score, achievedAt: r.createdAt }));
+        .map((r) => ({
+          username: r.username,
+          score: r.score,
+          achievedAt: r.createdAt,
+          wave: (r.meta as { wave?: number }).wave,
+          bosses: (r.meta as { bosses?: number }).bosses,
+        }));
     },
   };
 }

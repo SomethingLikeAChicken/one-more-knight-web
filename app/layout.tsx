@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 p-6">{children}</main>
         <footer className="border-t border-night-line p-4 text-center text-sm text-parchment-muted">
-          an endless bullet-hell · university project · alpha 1.0.0
+          an endless bullet-hell · university project · alpha 1.1.0
         </footer>
       </body>
     </html>

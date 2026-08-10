@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { WikiEntry } from "@/lib/wiki";
+import { MODIFIERS } from "@/lib/modifiers";
 import { discoveredSlugs } from "@/lib/encounters-client";
 
 /* eslint-disable @next/next/no-img-element -- pixel-art sprites, no optimization wanted */
@@ -61,10 +62,32 @@ export default function BestiaryGrid({ entries }: { entries: WikiEntry[] }) {
         ))}
       </div>
       <h2 className="mb-3 text-lg text-parchment">Bosses</h2>
-      <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
+      <div className="mb-8 grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-6">
         {bosses.map((e) => (
           <Card key={e.slug} entry={e} discovered={found.has(e.slug)} />
         ))}
+      </div>
+      <h2 className="mb-1 text-lg text-parchment">Wave Modifiers</h2>
+      <p className="mb-3 text-sm text-parchment-muted">
+        From wave 16, some waves carry one of these — announced on the wave readout. Survive one to
+        chronicle it.
+      </p>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {MODIFIERS.map((m) => {
+          const got = found.has(m.slug);
+          return got ? (
+            <div key={m.slug} className="rounded-md border border-night-line bg-night-raised p-4">
+              <div className="mb-1 font-bold uppercase tracking-wider text-gold">{m.name}</div>
+              <p className="mb-2 text-sm leading-relaxed text-parchment">{m.effect}</p>
+              <p className="text-sm italic leading-relaxed text-parchment-muted">{m.advice}</p>
+            </div>
+          ) : (
+            <div key={m.slug} className="rounded-md border border-night-line bg-night-raised p-4 opacity-55">
+              <div className="mb-1 font-bold uppercase tracking-wider text-night-line">???</div>
+              <p className="text-sm text-parchment-muted">An unmet omen of the deep waves.</p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

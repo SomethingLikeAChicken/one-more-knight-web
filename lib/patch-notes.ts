@@ -8,6 +8,46 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.1.0",
+    title: "Rifts & Hunters",
+    date: "2026-08-11",
+    sections: [
+      {
+        heading: "Balance — the 120k hotfix",
+        items: [
+          "Powerups are now 10-second timed effects: sword +2 damage, wing +30% speed, bolt −35% fire cooldown. Picking the same type again refreshes the clock. Permanent stacking is gone.",
+          "The heart now refills one lost heart only — it never raises max HP, and it's much rarer (drop weight 0.35 → 0.12).",
+          "Boss rewards no longer count toward boss-stage thresholds — no more back-to-back bosses after a big payout.",
+          "The HUD shows active buffs in gold with countdowns, next to the violet curse line.",
+        ],
+      },
+      {
+        heading: "Rifts — remote bullet hell",
+        items: [
+          "New pattern origin: a violet square RIFT opens somewhere on the field, contracts and strobes for a beat, then the whole pattern erupts FROM the square — rings, crosses, gyres, even homing volleys. The boss doesn't have to be where the danger is anymore.",
+          "Five rift bosses from difficulty 5 up: The Riftwarden (d5), The Executioner (d6), The Voidmother (d7, rift homing volleys + a Locust brood), The Tribunal (d7, THREE simultaneous rifts + cursed summons), and Apocrypha (d8, 1000 HP, summons a Direhound miniboss). 18 bosses total.",
+        ],
+      },
+      {
+        heading: "The hunters",
+        items: [
+          "Ten homing-focused enemies: Stalker, Gemini, Bloodhound, Lamprey, Vulture, Shepherd, Locust, the Direhound miniboss, and two new cursed carriers — Curseweaver (killing it BLINDS you) and Penitent (killing it dulls your damage). 38 enemy types total.",
+          "Two new curses: Blind (the screen closes in) and Weakness (−1 damage). Cursed enemies now appear in far more late-game groups — debuffs scale with depth.",
+          "Six new groups from wave 8 to 19, including CursedCongregation and DirehoundHunt. 39 groups total.",
+        ],
+      },
+      {
+        heading: "Website",
+        items: [
+          "Wave modifiers are now explained in the bestiary — survive a wave with one to unlock its entry.",
+          "Leaderboard entries show the wave reached and bosses killed of each knight's best run.",
+          "Twelve new achievements (34 total), including Ten Crowns, Walking Omen, and The Wave Has No Number.",
+          "All 56 bestiary entries have full lore plus a How-to-fight-it tactics section.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.0.0",
     title: "The Bestiary & The Wall",
     date: "2026-08-11",
