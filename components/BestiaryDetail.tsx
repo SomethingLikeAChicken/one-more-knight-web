@@ -52,12 +52,30 @@ export default function BestiaryDetail({ entry }: { entry: WikiEntry }) {
         />
         <div>
           <h1 className="text-3xl text-gold">{entry.name}</h1>
-          <span className={`text-sm uppercase tracking-wider ${entry.kind === "boss" ? "text-gold" : "text-parchment-muted"}`}>
-            {entry.kind}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className={`text-sm uppercase tracking-wider ${entry.kind === "boss" ? "text-gold" : "text-parchment-muted"}`}>
+              {entry.kind}
+            </span>
+            {entry.miniboss && (
+              <span className="rounded border border-gold px-1.5 py-0.5 text-xs uppercase tracking-wider text-gold">
+                miniboss
+              </span>
+            )}
+            {entry.cursed && (
+              <span className="rounded border border-purple-400 px-1.5 py-0.5 text-xs uppercase tracking-wider text-purple-400">
+                cursed
+              </span>
+            )}
+          </div>
         </div>
       </div>
-      <p className="mb-6 max-w-xl italic leading-relaxed text-parchment">{entry.description}</p>
+      <p className="mb-6 max-w-2xl italic leading-relaxed text-parchment">{entry.description}</p>
+      {entry.tactics && (
+        <div className="mb-6 max-w-2xl rounded-md border border-night-line bg-night-raised p-4">
+          <h2 className="mb-2 text-sm uppercase tracking-wider text-gold">How to fight it</h2>
+          <p className="leading-relaxed text-parchment">{entry.tactics}</p>
+        </div>
+      )}
       <div className="mb-8 flex flex-wrap gap-3">
         <Stat label="HP" value={entry.hp} />
         {entry.kind === "enemy" && (

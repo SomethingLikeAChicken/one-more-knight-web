@@ -7,11 +7,14 @@ export type WikiEntry = {
   name: string;
   hp: number;
   description: string;
+  tactics?: string;
   sprite: string;
   // enemy-only
   speed?: number;
   score?: number;
   shoots?: boolean;
+  miniboss?: boolean;
+  cursed?: boolean;
   // boss-only
   difficulty?: number;
   reward?: number;

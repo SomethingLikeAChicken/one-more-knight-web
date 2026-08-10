@@ -19,7 +19,11 @@ export interface Store {
   recordEncounter(authId: string, username: string, slug: string): Promise<void>;
   /** All slugs this player has encountered. */
   encounters(authId: string): Promise<string[]>;
+  /** The player's stored runs, newest first — achievement raw material. */
+  runs(authId: string, limit: number): Promise<RunRow[]>;
 }
+
+export type RunRow = { score: number; meta: RunMeta; createdAt: string };
 
 // ---------------------------------------------------------------------------
 // Postgres store (production; used whenever DATABASE_URL is set)
@@ -85,6 +89,19 @@ function postgresStore(url: string): Store {
         JOIN players p ON p.id = e.player_id
         WHERE p.auth_id = ${authId}`;
       return rows.map((r) => r.slug as string);
+    },
+    async runs(authId, limit) {
+      await ready;
+      const rows = await sql`
+        SELECT s.score, s.meta, s.created_at FROM scores s
+        JOIN players p ON p.id = s.player_id
+        WHERE p.auth_id = ${authId}
+        ORDER BY s.created_at DESC LIMIT ${limit}`;
+      return rows.map((r) => ({
+        score: r.score as number,
+        meta: (r.meta ?? {}) as RunMeta,
+        createdAt: (r.created_at as Date).toISOString(),
+      }));
     },
     async leaderboard(limit) {
       await ready;
@@ -156,6 +173,13 @@ function fileStore(): Store {
     },
     async encounters(authId) {
       return (await readEncounters()).filter((e) => e.authId === authId).map((e) => e.slug);
+    },
+    async runs(authId, limit) {
+      return (await readAll())
+        .filter((r) => r.authId === authId)
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+        .slice(0, limit)
+        .map((r) => ({ score: r.score, meta: r.meta, createdAt: r.createdAt }));
     },
     async leaderboard(limit) {
       const runs = await readAll();

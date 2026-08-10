@@ -22,12 +22,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <NavLink href="/">Play</NavLink>
             <NavLink href="/leaderboard">Leaderboard</NavLink>
             <NavLink href="/wiki">Bestiary</NavLink>
+            <NavLink href="/achievements">Achievements</NavLink>
+            <NavLink href="/patch-notes">Patch Notes</NavLink>
             <AuthStatus />
           </nav>
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 p-6">{children}</main>
         <footer className="border-t border-night-line p-4 text-center text-sm text-parchment-muted">
-          an endless bullet-hell · university project
+          an endless bullet-hell · university project · alpha 1.0.0
         </footer>
       </body>
     </html>
