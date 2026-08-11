@@ -8,6 +8,27 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.3.1",
+    title: "The Mage Patch",
+    date: "2026-08-11",
+    sections: [
+      {
+        heading: "Your knight took up the staff",
+        items: [
+          "The hero is a battle-mage now: robe, wizard hat, and a staff that casts FIRE instead of loosing arrows. And the Wardrobe got serious — every skin now changes your whole look (robe and hat colors) AND the color of your flames: golden fire by default, ember-orange for the Crimson, blue-violet for the Void, ghost-white for the Spectral, pink rift-fire for the Rift mage, and more.",
+          "Flame colors deliberately stay out of the enemy palette (their red/violet/green warning colors mean what they always meant) — your fire flies UP and burns in gold-family hues, so readability holds.",
+        ],
+      },
+      {
+        heading: "Fixes",
+        items: [
+          "The Descender and The Gatekeeper finally joined the art overhaul — they were hiding in two files from the very first week of the project and slipped through 1.3.0's redraw.",
+          "Fullscreen on desktop actually fills your screen now instead of keeping the game at its small size inside a black void. Sorry about that.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.3.0",
     title: "Touch & Steel",
     date: "2026-08-11",
