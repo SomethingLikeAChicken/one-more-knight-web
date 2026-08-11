@@ -8,6 +8,29 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.3.0",
+    title: "Touch & Steel",
+    date: "2026-08-11",
+    sections: [
+      {
+        heading: "Play on your phone",
+        items: [
+          "Touch controls are in: rest your left thumb anywhere on the left half of the screen and a joystick appears under it — drag to move in any direction. Hold anywhere on the right half to fire. Both at once works, exactly like it should.",
+          "The Fullscreen button now actually works on phones (iPhones don't support real browser fullscreen — we stopped fighting it and built our own): the game fills your screen edge to edge, with an Exit button and ESC to leave. Hold your phone sideways — the battlefield is wide, and the game will remind you if you don't.",
+          "The menu has a proper BEGIN THE RUN button and the death screen restarts on a tap, so a whole session never needs a keyboard.",
+        ],
+      },
+      {
+        heading: "The host got new armor — all of it",
+        items: [
+          "Every creature in the game has been redrawn: 85 sprites across 16 distinct medieval archetypes — soldiers with different weapons, hooded monks, pointed-hat witches, wailing ghosts, skeletons, gargoyles, wyverns, hounds, serpents, carrion crows, walking siege engines, demon lords, crowned kings. No more same-knight-five-times: no two creatures share a body and a palette.",
+          "Your knight got the treatment too (gold and blue, as the color law demands), and the bestiary shows all the new faces.",
+          "Identities held: the Direhound is still a hound, the Bulwark is still a wall, cursed creatures still wear the dark palette. Sprite sizes are unchanged, so hitboxes and game feel are exactly as before — this is paint, not balance.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.2.1",
     title: "The Pacing Hotfix",
     date: "2026-08-11",
