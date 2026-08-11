@@ -8,6 +8,20 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.3.2",
+    title: "One Small Oval",
+    date: "2026-08-11",
+    sections: [
+      {
+        heading: "Fixes",
+        items: [
+          "The hero's fire bolt is a clean symmetric oval again — the 1.3.1 trailing-flame shape read poorly in dense fights. Still colored by your skin's flame.",
+          "The wardrobe skins showed only the mage's STAFF — the new skin textures auto-sliced on import and the first slice happened to be the staff. Every skin now shows the whole mage, in the wardrobe and in the run.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.3.1",
     title: "The Mage Patch",
     date: "2026-08-11",
