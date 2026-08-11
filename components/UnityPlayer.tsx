@@ -51,6 +51,22 @@ export default function UnityPlayer() {
   const [progress, setProgress] = useState(0);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // CSS pseudo-fullscreen (game #97): the real Fullscreen API is unavailable on
+  // iPhones, so "fullscreen" is a fixed-inset overlay that works everywhere.
+  const [maximized, setMaximized] = useState(false);
+
+  useEffect(() => {
+    if (!maximized) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMaximized(false);
+    };
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [maximized]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -123,14 +139,24 @@ export default function UnityPlayer() {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center gap-2.5">
+    <div
+      className={
+        maximized
+          ? "fixed inset-0 z-50 flex items-center justify-center bg-black"
+          : "relative flex flex-col items-center gap-2.5"
+      }
+    >
       <canvas
         ref={canvasRef}
         id="unity-canvas"
         width={960}
         height={600}
         tabIndex={-1}
-        className="aspect-[960/600] w-full max-w-[960px] rounded-md border border-night-line bg-black"
+        className={
+          maximized
+            ? "aspect-[960/600] max-h-full w-auto max-w-full touch-none bg-black"
+            : "aspect-[960/600] w-full max-w-[960px] touch-none rounded-md border border-night-line bg-black"
+        }
       />
       {!ready && !error && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-parchment-muted">
@@ -144,13 +170,28 @@ export default function UnityPlayer() {
         </div>
       )}
       {error && <p className="text-red-400">The game failed to load: {error}</p>}
-      {ready && (
+      {ready && !maximized && (
         <button
-          onClick={() => window.__unity?.SetFullscreen(1)}
+          onClick={() => setMaximized(true)}
           className="self-end cursor-pointer rounded border border-night-line px-3 py-1 text-sm text-parchment-muted transition-colors hover:border-gold hover:text-gold"
         >
           Fullscreen
         </button>
+      )}
+      {maximized && (
+        <>
+          <button
+            onClick={() => setMaximized(false)}
+            className="absolute right-3 top-3 z-10 cursor-pointer rounded border border-night-line bg-night-raised px-3 py-1 text-sm text-parchment-muted transition-colors hover:border-gold hover:text-gold"
+          >
+            ✕ Exit
+          </button>
+          <div className="pointer-events-none absolute inset-x-0 bottom-6 hidden justify-center portrait:flex">
+            <p className="rounded bg-night-raised/90 px-4 py-2 text-parchment">
+              ⟳ Rotate your device — the battlefield is wide.
+            </p>
+          </div>
+        </>
       )}
     </div>
   );
