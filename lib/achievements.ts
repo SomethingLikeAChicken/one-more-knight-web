@@ -120,7 +120,9 @@ export const ACHIEVEMENTS: Achievement[] = [
     earned: (_r, discovered) => discovered >= 10 },
   { slug: "chronicler-25", name: "Lorekeeper", description: "Chronicle 25 bestiary entries.",
     earned: (_r, discovered) => discovered >= 25 },
+  // 61 = 56 creatures + 5 wave modifiers, the full discovery diary. Bump alongside
+  // content batches, like the version string.
   { slug: "chronicler-all", name: "The Complete Bestiary",
-    description: "Chronicle all 41 entries. Yes, including Eternity.",
-    earned: (_r, discovered) => discovered >= 41 },
+    description: "Chronicle all 61 entries. Yes, including Eternity.",
+    earned: (_r, discovered) => discovered >= 61 },
 ];

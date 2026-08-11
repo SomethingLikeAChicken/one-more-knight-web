@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BulletLegend from "@/components/BulletLegend";
 import UnityPlayer from "@/components/UnityPlayer";
 
 function Key({ children }: { children: React.ReactNode }) {
@@ -26,6 +27,9 @@ export default function PlayPage() {
           </Link>{" "}
           — one entry per knight, only your best counts.
         </p>
+        <div className="mt-4">
+          <BulletLegend />
+        </div>
       </section>
     </div>
   );
