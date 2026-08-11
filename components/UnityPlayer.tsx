@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { addLocalEncounter } from "@/lib/encounters-client";
+import { addLocalEncounter, discoveredSlugs } from "@/lib/encounters-client";
+import { ACHIEVEMENTS, type AchievementRun } from "@/lib/achievements";
 
 declare global {
   interface Window {
@@ -14,7 +15,26 @@ declare global {
     __omk?: {
       submitScore: (score: number, meta?: Record<string, unknown>) => Promise<void>;
       encounter: (slug: string) => void;
+      requestUnlocks: () => void;
     };
+  }
+}
+
+// Evaluates the same client-side achievement set the /achievements page renders and
+// hands the earned slugs into the game (wardrobe unlocks, game #89). Pushed once on
+// ready and re-sent whenever the game pulls via OMK_RequestUnlocks (each Menu load).
+async function sendUnlocks(unity: UnityInstance) {
+  try {
+    const [runsRes, discovered] = await Promise.all([
+      fetch("/api/runs").then((r) => r.json() as Promise<{ runs: AchievementRun[] }>),
+      discoveredSlugs(),
+    ]);
+    const earned = ACHIEVEMENTS.filter((a) =>
+      a.earned(runsRes.runs ?? [], discovered.size),
+    ).map((a) => a.slug);
+    unity.SendMessage("Unlocks", "OMK_SetUnlocks", earned.join(","));
+  } catch {
+    // Signed out or offline: no unlocks to report; the game keeps its cached set.
   }
 }
 
@@ -81,7 +101,11 @@ export default function UnityPlayer() {
                 body: JSON.stringify({ slug }),
               }).catch(() => {});
             },
+            requestUnlocks() {
+              void sendUnlocks(unity);
+            },
           };
+          void sendUnlocks(unity);
           setReady(true);
         })
         .catch((message) => setError(String(message)));

@@ -6,6 +6,8 @@ export type RunMetaStats = {
   powerups?: number;
   curses?: number;
   kills?: Record<string, number>;
+  /** Per-boss-slug kills (game #91) - mains and lackeys, keyed by asset name. */
+  bossKills?: Record<string, number>;
 };
 
 export type AchievementRun = { score: number; meta: RunMetaStats; createdAt: string };
@@ -26,6 +28,12 @@ const totalKills = (runs: AchievementRun[], type?: string) =>
 
 const bestWave = (runs: AchievementRun[]) => Math.max(0, ...runs.map((r) => r.meta.wave ?? 0));
 const bestScore = (runs: AchievementRun[]) => Math.max(0, ...runs.map((r) => r.score));
+
+const totalBossKills = (runs: AchievementRun[], ...slugs: string[]) =>
+  runs.reduce((sum, r) => {
+    const bk = r.meta.bossKills ?? {};
+    return sum + slugs.reduce((a, s) => a + (bk[s] ?? 0), 0);
+  }, 0);
 
 export const ACHIEVEMENTS: Achievement[] = [
   { slug: "first-fall", name: "First Fall",
@@ -125,4 +133,32 @@ export const ACHIEVEMENTS: Achievement[] = [
   { slug: "chronicler-all", name: "The Complete Bestiary",
     description: "Chronicle all 61 entries. Yes, including Eternity.",
     earned: (_r, discovered) => discovered >= 61 },
+  // --- The hard tier (game #91): wardrobe skins hang off these.
+  { slug: "slay-warbringer", name: "Warbreaker",
+    description: "Defeat the Warbringer. The war, remarkably, continues without him.",
+    earned: (runs) => totalBossKills(runs, "BossWarbringer") >= 1 },
+  { slug: "slay-voidmother", name: "Void Seal",
+    description: "Defeat the Voidmother. Somewhere, a thousand rifts quietly close.",
+    earned: (runs) => totalBossKills(runs, "BossVoidmother") >= 1 },
+  { slug: "slay-regent", name: "Coup",
+    description: "Defeat the Regent - after both his Blades. Power abhors a vacuum; you ARE the vacuum.",
+    earned: (runs) => totalBossKills(runs, "BossRegent") >= 1 },
+  { slug: "slay-pale-king", name: "Regicide",
+    description: "Defeat the Pale King. There is no trick. There is only being good enough.",
+    earned: (runs) => totalBossKills(runs, "BossPaleKing") >= 1 },
+  { slug: "guard-breaker", name: "Guard-Breaker",
+    description: "Fell 10 boss guards - Squires, Blades, or Pale Heralds.",
+    earned: (runs) => totalBossKills(runs, "BossSquire", "BossRegentBlade", "BossPaleHerald") >= 10 },
+  { slug: "miniboss-hunter", name: "Headhunter",
+    description: "Slay 15 minibosses. The tracking bars have learned to fear you.",
+    earned: (runs) => totalKills(runs, "DreadCaptain") + totalKills(runs, "Direhound")
+      + totalKills(runs, "StandardBearer") + totalKills(runs, "Ossuary") + totalKills(runs, "Riftmaw")
+      + totalKills(runs, "Reliquary") + totalKills(runs, "Colossus") >= 15 },
+  { slug: "rift-hunter", name: "Rift-Closer",
+    description: "Destroy 25 rift-creatures - Riftlings, Voidcallers, Riftmaws.",
+    earned: (runs) => totalKills(runs, "Riftling") + totalKills(runs, "Voidcaller")
+      + totalKills(runs, "Riftmaw") >= 25 },
+  { slug: "score-500k", name: "Half the Kingdom",
+    description: "Score 500,000 in one run. The other half is still shooting at you.",
+    earned: (runs) => bestScore(runs) >= 500_000 },
 ];
