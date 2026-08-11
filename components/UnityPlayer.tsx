@@ -154,7 +154,7 @@ export default function UnityPlayer() {
         tabIndex={-1}
         className={
           maximized
-            ? "aspect-[960/600] max-h-full w-auto max-w-full touch-none bg-black"
+            ? "aspect-[960/600] max-h-full max-w-full touch-none bg-black landscape:h-full landscape:w-auto portrait:w-full portrait:h-auto"
             : "aspect-[960/600] w-full max-w-[960px] touch-none rounded-md border border-night-line bg-black"
         }
       />
