@@ -8,6 +8,65 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.2.0",
+    title: "Shields & Squires",
+    date: "2026-08-11",
+    sections: [
+      {
+        heading: "Shield bosses — break the ward first",
+        items: [
+          "Some bosses now enter behind a WARD: a floating blue shield (you'll recognize the Bulwark slab) that soaks every point of damage before the boss's own health can be touched. While the ward holds, the boss bar is BLUE and shows the ward, with a SHIELD tag on the name — when it shatters (you'll see it), the bar flips to the familiar violet and the real fight begins at full health. The Castellan (d2) teaches the mechanic gently; the Warlord (d4) and Iconoclast (d6) do not.",
+          "Fair warning: warded bosses keep firing while you grind the blue bar. The ward is not a free damage phase.",
+        ],
+      },
+      {
+        heading: "Lackey bosses — kill the guard, then the king",
+        items: [
+          "Other bosses arrive GUARDED: two smaller bosses flank them, each with its own name tag and health bar, while the main boss's bar sits GREY — he is untouchable until both guards fall. Don't waste a single arrow on a grey bar. Every fallen guard pays a score reward and drops a powerup, and when the last one dies the boss visibly rages and his bar lights violet: now it's a duel.",
+          "The Baron (d3) with his two Squires is the introduction; The Regent (d7) with his Blades is the exam.",
+        ],
+      },
+      {
+        heading: "The Pale King — difficulty 9",
+        items: [
+          "A new stage opens at 64,000 score, and one boss rules it: The Pale King, 1200 HP behind BOTH mechanics at once — two rift-casting Pale Heralds guard him, then a 150-point ward, then three phases of dense rings, storm crosses, rift gyres and homing volleys while Riftlings pour in. Reward: 12,000. Bank every Aegis and Purge you can carry.",
+          "Six more bosses fill the ladder below him: The Plaguebearer (d2), The Runesmith (d3), The Gravewright (d4, summons CURSED help — fire discipline is the fight), The Covenant (d5, pure rift-caster). 31 bosses in the bestiary, difficulty 1 through 9.",
+        ],
+      },
+      {
+        heading: "New defensive powerups (wave 12+)",
+        items: [
+          "AEGIS — a blue shield icon. The next hit that would hurt you is blocked entirely; a spinning blue ring around your knight shows the ward, and it lasts 10 seconds if unspent. Picking up another refreshes it.",
+          "PURGE — a violet starburst. The instant you touch it, EVERY enemy bullet on screen vanishes. The panic button for deep-wave density; your own bullets are untouched.",
+          "Both only start dropping from wave 12 and are rarer than swords — the early game is unchanged.",
+        ],
+      },
+      {
+        heading: "The Wardrobe — achievements pay out now",
+        items: [
+          "The main menu is rebuilt (real UI at last) and gains the WARDROBE: eight knight skins, each locked behind an achievement. Reach 100k for the Golden Knight, fell the Warbringer for the Crimson, the Voidmother for the Void, the Pale King himself for the Pale Knight — and chronicle the entire bestiary for the form-changing Rift Knight. Your choice persists between sessions and your knight wears it in every run.",
+          "Skins are cosmetic: your hitbox never changes.",
+        ],
+      },
+      {
+        heading: "New blood — 18 enemies, rifts in the waves",
+        items: [
+          "15 new regular enemies from fodder to elite — including the first RIFT-casting wave enemies: the Riftling opens rifts on your position, the Voidcaller from random sky-points. They're expensive for the wave budget, so they arrive as punctuation, not floods.",
+          "3 new minibosses in the actually-killable range, each with a GUARANTEED drop: the Standard-Bearer (18 HP → wing), the Ossuary (22 HP → bolt), and the rift-spitting Riftmaw (20 HP → sword). The old wall minibosses were tuned down to match (DreadCaptain 40→30, Direhound 45→35) and now always drop a sword too — minibosses are worth the detour, every time.",
+          "56 enemy types, 49 wave groups.",
+        ],
+      },
+      {
+        heading: "Achievements & website",
+        items: [
+          "8 new achievements (42 total), including the hard tier the Wardrobe hangs off: Regicide, Warbreaker, Void Seal, Coup, Guard-Breaker, Headhunter, Rift-Closer, and Half the Kingdom (500k). Your runs now record WHICH bosses you slew, not just how many.",
+          "The bestiary gained a MINIBOSSES section, and 'Read the bullets' explains the color code on the Play page and the Bestiary: green flies straight, violet snakes, red hunts.",
+          "The Complete Bestiary achievement now demands all 92 entries. We know. Good luck.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.1.0",
     title: "Rifts & Hunters",
     date: "2026-08-11",

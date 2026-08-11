@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import AuthStatus from "@/components/AuthStatus";
 import NavLink from "@/components/NavLink";
+import { PATCH_NOTES } from "@/lib/patch-notes";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </header>
         <main className="mx-auto w-full max-w-5xl flex-1 p-6">{children}</main>
         <footer className="border-t border-night-line p-4 text-center text-sm text-parchment-muted">
-          an endless bullet-hell · university project · alpha 1.1.0
+          an endless bullet-hell · university project · {PATCH_NOTES[0].version}
         </footer>
       </body>
     </html>
