@@ -8,6 +8,20 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.2.1",
+    title: "The Pacing Hotfix",
+    date: "2026-08-11",
+    sections: [
+      {
+        heading: "Endgame bosses respect your time now",
+        items: [
+          "1000 HP is now the absolute ceiling for any boss. The Pale King dropped from 1200 to 1000 — the fight was not harder above that line, just longer. His patterns, guards and ward are untouched; the challenge stays, the grind goes.",
+          "Difficulty 8+ bosses now DROP A POWERUP at the start of every phase they enter — watch for it falling just below the boss. A long fight against Apocrypha, Eternity or the Pale King funds the dodging it demands: the Pale King's three phases pay out three times. Bosses below d8 are unchanged.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.2.0",
     title: "Shields & Squires",
     date: "2026-08-11",
