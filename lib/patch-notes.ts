@@ -8,6 +8,20 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.3.3",
+    title: "The Visible Host",
+    date: "2026-08-12",
+    sections: [
+      {
+        heading: "Fixes",
+        items: [
+          "Every enemy and boss was INVISIBLE since 1.3.2 — you were dodging ghosts. The staff-fix in 1.3.2 changed how all our sprite files are imported, which silently gave every sprite a new internal ID. We re-pointed the eight hero skins to the new IDs but missed the other 89 references: all 56 enemies, all the bosses, the boss shields, and the boss template itself. Their sprite links quietly resolved to nothing, and Unity draws 'nothing' as exactly that. All 89 references are rewired and verified one by one — the host is visible again.",
+          "The bullets, powerups, and your mage were never affected, which is why the game LOOKED like it was running fine — it was, you just couldn't see who was shooting at you. Sorry: this one shipped because our release check verified the skins we were fixing but not everything else that leaned on the same import change.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.3.2",
     title: "One Small Oval",
     date: "2026-08-11",
