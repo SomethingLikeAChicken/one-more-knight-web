@@ -8,6 +8,34 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.4.0",
+    title: "The Painted March",
+    date: "2026-08-13",
+    sections: [
+      {
+        heading: "A whole new face — every face",
+        items: [
+          "Every creature in the game was redrawn, this time generated with PixelLab and anchored to hand-made concept art: 56 enemies, 7 minibosses, 31 bosses, and the hero. The style is darker and more medieval — cultists, wraiths, siege engines, vampire lords, a lich in an ice crown, a pale king with antlers. Pixel density is uniform everywhere now: small enemies are 32 pixels, minibosses 48, bosses 64, and the end-game colossals a full 96, so everything sits in the same world instead of the same soup.",
+          "Every enemy that shoots VISIBLY can: crossbows, slings, censers, warhorns, void portals. The pure knights — Bulwark, Aegis, the Colossus — are exactly the ones that come to crush you in person. The whole bestiary got fresh lore written for the new bodies, so the wiki reads true again.",
+          "Your knight is a battle MAGE now — and after a day as a woman, he grew a beard. Same blue robe, same golden flame; all eight wardrobe skins recolor his robe, hat, and staff-fire.",
+        ],
+      },
+      {
+        heading: "The ground moves",
+        items: [
+          "The black void under your feet is gone. The host now marches across actual land — trampled battlefields, a cursed forest, graveyard slabs, castle carpets, and cracked rift-stone at the end. The ground scrolls beneath you, and every boss you fell carries you into the next region: the land changes at the horizon, never under your feet. The terrain is dimmed on purpose so bullets and enemies always pop against it.",
+        ],
+      },
+      {
+        heading: "A proper coat of arms",
+        items: [
+          "The interface is PixelLab-made too: a hand-drawn medieval game font on every screen, oak-and-iron buttons, wooden wardrobe tiles, an iron-and-gold frame around boss health bars, and a crowned-helm emblem above the title.",
+          "First animation experiment shipped: the mage has a full 8-direction walk cycle, generated from his own sprite. He strides when you move and plants his staff when you stand. (Known quirk we accepted for now: while walking, non-default skins show the base blue robe — per-skin walk sets come later if the experiment sticks.)",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.3.3",
     title: "The Visible Host",
     date: "2026-08-12",
