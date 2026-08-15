@@ -13,6 +13,16 @@ export const PATCH_NOTES: PatchNote[] = [
     date: "2026-08-15",
     sections: [
       {
+        heading: "Preview update 2 — the sponge wall falls (same day)",
+        items: [
+          "First play-test verdict was clear: wave 50 was a wall of unkillable sponges. FIXED — with the trash retired, late waves are already all elite squads, so the old HP curve on top was double-dipping. Enemy health now peaks at a gentle ×1.5 (was ×4), and the wave-based DAMAGE creep is gone entirely: this game runs on a 3-HP principle — three chances, always readable — and no enemy will ever hit for 2 just because your run got long. The only double-damage in the game is now the one you SIGN FOR (Pact of Blood).",
+          "So where does late-game difficulty come from? Content. FOURTEEN new enemy squads, most of them built for the deep waves: the Siege Train, the Black Procession, twin-Riftmaw TwinMaws, the Vault Guard (a Reliquary behind Aegis shields), the Storm of Wings, and The Last Court — the new hardest formation in the game. The late-wave pool more than doubled, so skipping waves with a Pact now means meeting DIFFERENT armies, not fatter ones. And wave-skip pacts cap at +10 waves — no more triple-Abyss teleporting to wave 45.",
+          "The Pact table grew from 9 to 17 contracts across five new kinds of bargain: heavy boots, slow staffs, drought (fewer or NO powerup drops), longer curses, and a stampede. Choosing a Pact also PURGES every bullet on screen first — time never resumes into a hit you couldn't see coming.",
+          "Three new death-curses join the palette: FROST (slow and stiff), SILENCE (pickups do nothing while the bell tolls — they wait for you), and HEX (your controls invert — good luck). Carried by the Dirgesinger, the Bellringer, and — of course — the Hexblade.",
+          "And yes: there's a PAUSE button now. Esc or the corner button; the game freezes mid-bullet. Pact offers already froze time, now you can too.",
+        ],
+      },
+      {
         heading: "Sign here — the Pact system",
         items: [
           "At the start of every run, and again after every boss you fell, the game slides three contracts across the table: an easy, a medium, and a hard one. Each makes your run genuinely harder — faster foes, ironclad foes, crueler blows, a battlefield that refills sooner, or a straight leap forward on the wave clock — and pays every point you earn while it holds at ×1.4, ×2, or ×3 into your leaderboard score. Exactly ONE pact holds at a time: signing a new one breaks the old, and refusing drops you back to ×1. The multiplier is bound to the tier, never the individual pact — luck decides what flavor of pain you're offered, never how high your ceiling goes.",
