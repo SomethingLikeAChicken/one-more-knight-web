@@ -8,6 +8,42 @@ export type PatchNote = {
 /** Newest first. The in-game Menu version string must match the top entry. */
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: "alpha 1.5.0-preview",
+    title: "The Bargain (preview)",
+    date: "2026-08-15",
+    sections: [
+      {
+        heading: "Sign here — the Pact system",
+        items: [
+          "At the start of every run, and again after every boss you fell, the game slides three contracts across the table: an easy, a medium, and a hard one. Each makes your run genuinely harder — faster foes, ironclad foes, crueler blows, a battlefield that refills sooner, or a straight leap forward on the wave clock — and pays every point you earn while it holds at ×1.4, ×2, or ×3 into your leaderboard score. Exactly ONE pact holds at a time: signing a new one breaks the old, and refusing drops you back to ×1. The multiplier is bound to the tier, never the individual pact — luck decides what flavor of pain you're offered, never how high your ceiling goes.",
+          "Your standing pact is always visible in the HUD, your run summary remembers every pact you held and when, and the leaderboard now ranks the multiplied figure. Clean runs stay competitive — a ×3 pact is worth exactly as much as being three times better, and considerably more likely to kill you.",
+        ],
+      },
+      {
+        heading: "The ladder is a ladder now",
+        items: [
+          "The boss ladder had a dirty secret: reaching the top only RAISED THE CEILING — all 28 bosses stayed in the draw, so your 64,000-point climax was a d1 pushover four times out of ten, and the Pale King was a 1-in-28 lottery ticket. Every stage now draws from a difficulty BAND: the top of the ladder offers d8 and d9 bosses only, every single time. The fun no longer starts when the dice feel like it.",
+          "Late waves stopped hoarding trash. Past wave 20 the cheap early-game squads begin to RETIRE from the spawn pool, and by wave ~70 every wave spends its full budget on a couple of genuinely dangerous formations — half the enemies, none of the filler, same density law as always: harder never meant more, and now it finally means harder.",
+          "Enemies past wave 30 start hitting harder — up to TRIPLE damage by wave ~57. Their health and speed curves are untouched; the endgame kills you through stakes, not sponges. Below wave 20 nothing changed at all: the early game is exactly the ramp it was.",
+        ],
+      },
+      {
+        heading: "The host stirs",
+        items: [
+          "Nothing on the battlefield stands like a statue anymore: all 87 enemies and bosses got idle animations — cloaks sway, flames gutter, banners ripple, the Pale King breathes. Generated with PixelLab from each creature's own sprite, frame zero is the exact art you knew, so nothing changed identity — it just came alive.",
+          "Every wardrobe skin now has its own full 8-direction walk cycle. The 1.4.0 quirk where a Crimson or Void mage snapped back to blue robes the moment he moved is gone — your mage walks in his own colors.",
+          "The Baron and the Lich were wearing the WRONG BODIES since 1.4.0 — a sprite-import slip left both falling back to a default sprite in the game and their old 1.3 art in the bestiary. The vampire lord raises his chalice and the ice-crowned king holds court, in the run and in the wiki, as intended.",
+        ],
+      },
+      {
+        heading: "Preview notes",
+        items: [
+          "This is a PREVIEW build of alpha 1.5 — the endgame-scaling update is still growing (new top-tier bosses, deadzones, 2D boss movement, the HUD rework, and more pacts are on the spec). Numbers may move. Tell us where it bends before it ships as 1.5.0 proper.",
+        ],
+      },
+    ],
+  },
+  {
     version: "alpha 1.4.0",
     title: "The Painted March",
     date: "2026-08-13",
