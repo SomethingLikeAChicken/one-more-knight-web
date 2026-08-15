@@ -128,11 +128,11 @@ export const ACHIEVEMENTS: Achievement[] = [
     earned: (_r, discovered) => discovered >= 10 },
   { slug: "chronicler-25", name: "Lorekeeper", description: "Chronicle 25 bestiary entries.",
     earned: (_r, discovered) => discovered >= 25 },
-  // 92 = 87 creatures (56 enemies + 31 bosses) + 5 wave modifiers, the full
+  // 104 = 99 creatures (62 enemies + 37 bosses) + 5 wave modifiers, the full
   // discovery diary. Bump alongside content batches, like the version string.
   { slug: "chronicler-all", name: "The Complete Bestiary",
-    description: "Chronicle all 92 entries. Yes, including the Pale King.",
-    earned: (_r, discovered) => discovered >= 92 },
+    description: "Chronicle all 104 entries. Yes, including the Forgotten God.",
+    earned: (_r, discovered) => discovered >= 104 },
   // --- The hard tier (game #91): wardrobe skins hang off these.
   { slug: "slay-warbringer", name: "Warbreaker",
     description: "Defeat the Warbringer. The war, remarkably, continues without him.",

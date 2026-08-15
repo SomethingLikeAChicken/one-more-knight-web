@@ -13,6 +13,14 @@ export const PATCH_NOTES: PatchNote[] = [
     date: "2026-08-15",
     sections: [
       {
+        heading: "Preview update 3 — the host grows, the bosses learn respect",
+        items: [
+          "Boss fights are FIGHTS now, not chores. Two changes, born from a 750-HP Tribunal that was minutes of the same loop: every boss's health was compressed hard — the new absolute ceiling is 500 (the Pale King's old 1000 is history, the Tribunal fights at 380) — and every PHASE CHANGE now opens a BREACH: four seconds of DOUBLE DAMAGE, announced in the boss bar. The moment the fight gets most dangerous is exactly when hitting back counts twice. Aggression shortens fights; patience still wins them.",
+          "TWELVE new faces, PixelLab-drawn and animated like everything else: six enemies — the Cinderling ember-swarm, Crossbowman, Plaguecaller, Gallowsman, Reaver, and the grave-keying Cryptkeeper — and six bosses, one per difficulty: The Ashen Knight (d1), The Puppeteer (d3, he brings friends), The Winter Court (d5), The Flagellant (d7), The Hollow Crown (d9), and the game's FIRST DIFFICULTY-10 boss: THE FORGOTTEN GOD, waiting past 80,000 points where the ladder now keeps climbing. Eight new squads seat the newcomers from wave 2 to the deep waves.",
+          "The bestiary grows to 104 discoverable entries, and the Complete Bestiary achievement (and the Rift skin) now demand every one of them.",
+        ],
+      },
+      {
         heading: "Preview update 2 — the sponge wall falls (same day)",
         items: [
           "First play-test verdict was clear: wave 50 was a wall of unkillable sponges. FIXED — with the trash retired, late waves are already all elite squads, so the old HP curve on top was double-dipping. Enemy health now peaks at a gentle ×1.5 (was ×4), and the wave-based DAMAGE creep is gone entirely: this game runs on a 3-HP principle — three chances, always readable — and no enemy will ever hit for 2 just because your run got long. The only double-damage in the game is now the one you SIGN FOR (Pact of Blood).",
